@@ -1,31 +1,74 @@
 #include <stdio.h>
+#include<stulaib.h>
 
-int main() {
-    int score = 0, answer;
+#define MAX_QUE_LEN 300;
+#define MAX_OPTION_LEN 100;
+typedef struct 
+{
+  char text [MAX_QUE_LEN];
+  char options [4][MAX_OPTION_LEN];
+  char correct_option;
+  int timeout;
+  int score;
+} Questions;
 
-    // Question 1
-    printf("1. What is the capital of France?\n");
-    printf("1) Berlin\n2) Paris\n3) Rome\n4) Madrid\n");
-    printf("Enter your answer (1-4): ");
-    scanf("%d", &answer);
-    if (answer == 2) score++;
+int read_question(char* file_name,Questions** questions );
+void print_formatted_question(Question question);
 
-    // Question 2
-    printf("\n2. Which language is used for system programming?\n");
-    printf("1) Python\n2) Java\n3) C\n4) HTML\n");
-    printf("Enter your answer (1-4): ");
-    scanf("%d", &answer);
-    if (answer == 3) score++;
+int main (){
+  printf("\t\t\033[1;35m !!!==== Welcome to Quiz Game==== !!!\033[0m")
+  Questions* questions;
+   int no_of_questions=read_question("questions.txt",&questions );
+   for (int i=0; i< no_of_questions; i++ ){
+    print_formatted_question ((questions[i]));
+   }
+}
+void print_formatted_question(Question question){
+  printf("\n%s\n%s\n%s\n%s\n",question.text,question.options[0],question.options[1],question.options[2],question.options[3]);
+  printf("\n %c \n %d \n %d,question.correct_option, question.timeout, question.score");
+}
 
-    // Question 3
-    printf("\n3. What does CPU stand for?\n");
-    printf("1) Central Processing Unit\n2) Computer Personal Unit\n3) Central Print Unit\n4) Control Processing Unit\n");
-    printf("Enter your answer (1-4): ");
-    scanf("%d", &answer);
-    if (answer == 1) score++;
+int read_question(char* file_name,Questions** questions ){
+  
+   FILE *file =fopen(file_name,"r");
+   if (file==NULL){
+    printf("\nunable to open the questions bank.");
+    exit(0);
+  }
+   
+   char str [MAX_QUES_LEN];
+   int no_of_line= 0;
+   while (fgets(str,MAX_QUES_LEN,file)){
+    no_of_lines++
+  }
+   int no_of_questions = no_of_lines / 8;
+   
+   *questions= (Question*) malloc(no_of_questions* sizeof(Question));
+   
+   rewind(file);
+   
+   for (int i = 0; i <no_of_questions; i++);
+   {
+    fgets((*questions) [i].text,MAX_QUES_LEN,file);
+    for (int j = 0; j < 4; j++)
+    {
+      fgets((*questions [i].option,MAX_OPTION_LEN,file));
+    }
+    char option[10];
+    fgets(option,10,file);
+    *questions[i].correct_option = option[0];
+    
+    char timeout[10];
+    fgets(number,10,file);
+    *questions[i].timeout=atoi(number);
 
-    // Result
-    printf("\nQuiz finished! You scored %d out of 3.\n", score);
+    char score [10];
+    fgets( score,10,file);
+    *questions[i].score=atoi(score);
 
-    return 0;
+   }
+   fclose(file);
+   return no_of_questions;
+
+
 }
