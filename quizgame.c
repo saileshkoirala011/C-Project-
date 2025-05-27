@@ -387,10 +387,10 @@ void normal_mode() {
     game.used_count = 0;
     game.game_mode = 0;
     
-    printf("\n🎯 Starting Normal Mode with %d questions!\n", num_questions);
-    printf("⏰ Time limits: Easy(20s), Medium(30s), Hard(60s)\n");
-    printf("💡 You have ONE 50-50 lifeline available!\n");
-    printf("⚠️  Game ends if you don't answer within time limit!\n\n");
+    printf("\n Starting Normal Mode with %d questions!\n", num_questions);
+    printf(" Time limits: Easy(20s), Medium(30s), Hard(60s)\n");
+    printf(" You have ONE 50-50 lifeline available!\n");
+    printf("  Game ends if you don't answer within time limit!\n\n");
     
     printf("Press Enter to start...");
     getchar(); 
@@ -408,16 +408,16 @@ void normal_mode() {
         int user_answer = get_user_answer(current_q->time_limit);
         
         if(user_answer == -1) {
-            printf("\n⏰ Time's up! Game over!\n");
+            printf("\n Time's up! Game over!\n");
             printf("Your final score: %d points\n", game.current_score);
             break;
         }
         
         if(user_answer == current_q->correct_answer) {
-            printf("✅ Correct! +%d points\n", current_q->points);
+            printf("Correct! +%d points\n", current_q->points);
             game.current_score += current_q->points;
         } else {
-            printf("❌ Wrong! The correct answer was: %s\n", 
+            printf("Wrong! The correct answer was: %s\n", 
                    current_q->options[current_q->correct_answer]);
         }
         
@@ -433,9 +433,9 @@ void normal_mode() {
 
 void rapid_fire_mode() {
     printf("\n=== RAPID FIRE MODE ===\n");
-    printf("⚡ Answer as many questions as possible in 60 seconds!\n");
-    printf("🎯 Each correct answer = 1 point\n");
-    printf("📚 Questions from all categories (medium difficulty)\n\n");
+    printf(" Answer as many questions as possible in 60 seconds!\n");
+    printf(" Each correct answer = 1 point\n");
+    printf(" Questions from all categories (medium difficulty)\n\n");
     
     printf("Press Enter to start...");
     getchar();
@@ -448,12 +448,12 @@ void rapid_fire_mode() {
     time_t current_time;
     int questions_asked = 0;
     
-    printf("\n🚀 RAPID FIRE STARTED!\n");
+    printf("\n RAPID FIRE STARTED!\n");
     
     while(1) {
         current_time = time(NULL);
         if(current_time - start_time >= 60) {
-            printf("\n⏰ Time's up!\n");
+            printf("\n Time's up!\n");
             break;
         }
         
@@ -466,7 +466,7 @@ void rapid_fire_mode() {
         Question *current_q = &game.questions[q_index];
         
         int remaining_time = 60 - (current_time - start_time);
-        printf("\n⏱️  Time remaining: %d seconds\n", remaining_time);
+        printf("\n Time remaining: %d seconds\n", remaining_time);
         printf("Question %d: %s\n", questions_asked + 1, current_q->question);
         
         for(int j = 0; j < 4; j++) {
@@ -479,10 +479,10 @@ void rapid_fire_mode() {
         answer--; 
         
         if(answer == current_q->correct_answer) {
-            printf("✅ Correct! +1 point\n");
+            printf(" Correct! +1 point\n");
             game.current_score++;
         } else {
-            printf("❌ Wrong!\n");
+            printf(" Wrong!\n");
         }
         
         questions_asked++;
@@ -505,7 +505,7 @@ void display_question(Question *q, int q_num, int total_q) {
     
     printf("Question %d/%d [%s - %s] (%d points)\n", 
            q_num, total_q, categories[q->category], difficulty_str, q->points);
-    printf("⏰ Time limit: %d seconds\n\n", q->time_limit);
+    printf(" Time limit: %d seconds\n\n", q->time_limit);
     printf("%s\n\n", q->question);
     
     for(int i = 0; i < 4; i++) {
@@ -513,7 +513,7 @@ void display_question(Question *q, int q_num, int total_q) {
     }
     
     if(!game.lifeline_used) {
-        printf("\n💡 Type '5' to use 50-50 lifeline\n");
+        printf("\n Type '5' to use 50-50 lifeline\n");
     }
 }
 
@@ -527,7 +527,7 @@ int get_user_answer(int time_limit) {
     if(answer == 5 && !game.lifeline_used) {
         
         game.lifeline_used = 1;
-        printf("💡 50-50 Lifeline used! Two wrong answers eliminated.\n");
+        printf(" 50-50 Lifeline used! Two wrong answers eliminated.\n");
         printf("Choose from remaining options (1-4): ");
         scanf("%d", &answer);
     }
@@ -553,12 +553,12 @@ void update_user_score(int score, int mode) {
     if(mode == 0) { 
         if(score > game.current_user.normal_high_score) {
             game.current_user.normal_high_score = score;
-            printf("🏆 NEW HIGH SCORE for Normal Mode!\n");
+            printf(" NEW HIGH SCORE for Normal Mode!\n");
         }
     } else { 
         if(score > game.current_user.rapid_high_score) {
             game.current_user.rapid_high_score = score;
-            printf("🏆 NEW HIGH SCORE for Rapid Fire Mode!\n");
+            printf(" NEW HIGH SCORE for Rapid Fire Mode!\n");
         }
     }
     
@@ -581,27 +581,27 @@ void display_user_stats() {
     printf("\n=================================\n");
     printf("      %s's STATISTICS\n", game.current_user.username);
     printf("=================================\n");
-    printf("🏆 Normal Mode High Score: %d\n", game.current_user.normal_high_score);
-    printf("⚡ Rapid Fire High Score: %d\n", game.current_user.rapid_high_score);
-    printf("🎮 Total Games Played: %d\n", game.current_user.total_games);
+    printf(" Normal Mode High Score: %d\n", game.current_user.normal_high_score);
+    printf(" Rapid Fire High Score: %d\n", game.current_user.rapid_high_score);
+    printf(" Total Games Played: %d\n", game.current_user.total_games);
     
     if(game.current_user.recent_count > 0) {
-        printf("\n📊 Recent Scores:\n");
+        printf("\n Recent Scores:\n");
         for(int i = 0; i < game.current_user.recent_count; i++) {
             printf("   Game %d: %d points\n", i+1, game.current_user.recent_scores[i]);
         }
     }
     
-    printf("\nKeep playing to improve your scores!\n");
+    printf("\n Keep playing to improve your scores!\n");
 }
 
 void display_leaderboard() {
     printf("\n=================================\n");
     printf("         LEADERBOARD\n");
     printf("=================================\n");
-    printf("🏆 Normal Mode Champion: %s (%d points)\n", 
+    printf(" Normal Mode Champion: %s (%d points)\n", 
            game.current_user.username, game.current_user.normal_high_score);
-    printf("⚡ Rapid Fire Champion: %s (%d points)\n", 
+    printf(" Rapid Fire Champion: %s (%d points)\n", 
            game.current_user.username, game.current_user.rapid_high_score);
     printf("\n(In full version, this would show all users' scores)\n");
 }
